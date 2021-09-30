@@ -1,22 +1,42 @@
-import {ADD_MOVIES} from '../Actions';
+import 
+{
+    ADD_MOVIES,
+    ADD_FAVOURITE
+}
+from '../Actions';
 
 // default state
 const initialMoviesState = {
     list: [],
-    favourites: []
+    favourite: []
 }
 
 // obj2 = {...obj1, key:value ....}
 // Above operator is known as (...) object spreading operator which copies all the data of prev object and if want to override some properties of that object we can do by seperating properties with commas.
 
 export default function movies(state = initialMoviesState, action) {
-    if(action.type === ADD_MOVIES)
-        return {
-            ...state,
-            list: action.movies
-        };
+    // if(action.type === ADD_MOVIES)
+    //     return {
+    //         ...state,
+    //         list: action.movies
+    //     };
 
-    return state;
+    // In react community we avoid if else conditionals instead we use switch cases.
+
+    switch(action.type) {
+        case ADD_MOVIES:
+             return {
+                ...state,
+                list: action.movies
+            }
+        case ADD_FAVOURITE: 
+            return {
+                ...state,
+                favourite: [action.movies, ...state.favourite]
+            }
+        default: 
+            return state;
+    }
 }
 
 // Above is the basic syntax of reducers in the react code.
