@@ -1,5 +1,7 @@
+import {ADD_MOVIES} from '../Actions';
+
 export default function movies(state = [], action) {
-    if(action.type === 'ADD_MOVIES')
+    if(action.type === ADD_MOVIES)
         return action.movies;
 
     return state;
@@ -19,3 +21,5 @@ export default function movies(state = [], action) {
 
 // Above we have written state = [] that means if our state array is undefined then initialize state array with [].
 // This is a concept of default arguments in java script.
+
+// Idealy we should avoid string comparisions and for that we store our actions in a form of variables and at the same time we store them in actions file as they are action types and impor them in reducers.

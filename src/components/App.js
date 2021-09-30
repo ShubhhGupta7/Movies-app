@@ -2,6 +2,7 @@ import React from 'react';
 import {data} from '../data';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
+import {addMovies} from '../Actions'
 
 class App extends React.Component {  
 	
@@ -20,10 +21,7 @@ class App extends React.Component {
 			// Force update must be avoided for our easiness we have only used here.
 		});
 
-		store.dispatch({
-			type: 'ADD_MOVIES',
-			movies: data
-		});
+		store.dispatch(addMovies(data));
 		// Here we are getting data from file or api call and we will be sending an action for an indent to change the state using dispatch.
 
 		// Now as our state is changed but we are doing nothing to rerender our component. 
