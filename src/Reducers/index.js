@@ -1,8 +1,20 @@
 import {ADD_MOVIES} from '../Actions';
 
-export default function movies(state = [], action) {
+// default state
+const initialMoviesState = {
+    list: [],
+    favourites: []
+}
+
+// obj2 = {...obj1, key:value ....}
+// Above operator is known as (...) object spreading operator which copies all the data of prev object and if want to override some properties of that object we can do by seperating properties with commas.
+
+export default function movies(state = initialMoviesState, action) {
     if(action.type === ADD_MOVIES)
-        return action.movies;
+        return {
+            ...state,
+            list: action.movies
+        };
 
     return state;
 }

@@ -8,3 +8,6 @@ export function addMovies(movies) {
         movies
     }
 }
+
+// Action type are used to define what type of action is it.
+// Action creator creates action according to the action type.
