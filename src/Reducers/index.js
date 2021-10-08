@@ -1,20 +1,24 @@
+import { combineReducers } from 'redux';
 import 
 {
     ADD_MOVIES,
-    ADD_FAVOURITE
+    ADD_TO_FAVOURITES,
+    REMOVE_FROM_FAVOURITES, 
+    SET_SHOW_FAVOURITES
 }
 from '../Actions';
 
 // default state
 const initialMoviesState = {
     list: [],
-    favourite: []
-}
+    favourite: [], 
+    showFavourite: false
+};
 
 // obj2 = {...obj1, key:value ....}
 // Above operator is known as (...) object spreading operator which copies all the data of prev object and if want to override some properties of that object we can do by seperating properties with commas.
 
-export default function movies(state = initialMoviesState, action) {
+export function movies(state = initialMoviesState, action) {
     // if(action.type === ADD_MOVIES)
     //     return {
     //         ...state,
@@ -27,17 +31,56 @@ export default function movies(state = initialMoviesState, action) {
         case ADD_MOVIES:
              return {
                 ...state,
-                list: action.movies
+                list: action.movie
             }
-        case ADD_FAVOURITE: 
+        case ADD_TO_FAVOURITES: 
             return {
                 ...state,
-                favourite: [action.movies, ...state.favourite]
+                favourite: [action.movie, ...state.favourite]
+            }
+        case REMOVE_FROM_FAVOURITES: 
+            const filteredArray = state.favourite.filter(
+                movie => movie.Title != action.movie.Title
+            );
+            return {
+                ...state,
+                favourite: filteredArray
+            }
+        case SET_SHOW_FAVOURITES: 
+            return {
+                ...state,
+                showFavourite: action.showFavourite
             }
         default: 
             return state;
     }
 }
+
+const initialSearchState = {
+    result: {}
+};
+export function search (state = initialSearchState, action) {
+    return state;
+}
+
+const initialRootState = {
+    movies: initialMoviesState,
+    search: initialSearchState
+}
+// export default function rootReducer(state = initialRootState, action) {
+//     return {
+//         movies: movies(state.movies, action),
+//         search: search(state.search, action)
+
+//         // Here whenever state is changed both our reducers will be called as rootReducer will be called, it will internally call the all the reducer.
+//     }
+// }
+
+// Here we don't have to create rootReducer function it is available in redux itself and it works simillarly as we discussed.
+export default combineReducers({
+    movies,
+    search
+});
 
 // Above is the basic syntax of reducers in the react code.
 // In reducers we get the current state of the component and our reducer creates an intent change to change the state. Along with current state we also get the action.
@@ -55,3 +98,8 @@ export default function movies(state = initialMoviesState, action) {
 // This is a concept of default arguments in java script.
 
 // Idealy we should avoid string comparisions and for that we store our actions in a form of variables and at the same time we store them in actions file as they are action types and impor them in reducers.
+
+// Idealy we can only pass one reducer to the createStore function.
+// To have multiple reducers we will create rootReducer and it will key-value pair of all reducers in it.
+
+// In an file we can only have one default exports. 
