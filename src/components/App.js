@@ -2,7 +2,8 @@ import React from 'react';
 import {data} from '../data';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
-import {addMovies, setShowFavourites} from '../Actions'
+import {addMovies, setShowFavourites} from '../Actions';
+import {StoreContext} from '../index';
 
 class App extends React.Component {  
 	
@@ -46,12 +47,14 @@ class App extends React.Component {
 
 	render() {
 		console.log(this.props.store.getState());
-		const {movies} = this.props.store.getState();
+		const {movies, search} = this.props.store.getState();
 		const {list, favourite, showFavourite} = movies;
 		const displayMovies = showFavourite ? favourite : list;
 		return (
 			<div className="App">
-			  <Navbar />
+			  <Navbar 
+				search = {search}
+			  />
 			  <div className = "main">
 		
 				  <div className ="tabs">
@@ -81,5 +84,18 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+class AppWrapper extends React.Component {
+	render() {
+		return (
+			<StoreContext.Consumer>
+				{(store) => <App store = {store} />}
+			</StoreContext.Consumer>
+		);
+	}
+}
 
+export default AppWrapper;
+
+// Above we can wrap the ui by a Consumer but as we using Store outside the ui in other methods and componentDidMount and we know that we can use consumer inside a render function only 
+
+// So now we are wraping whole component inside Consumer (AppWrapper).

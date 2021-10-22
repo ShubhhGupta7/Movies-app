@@ -4,11 +4,13 @@ import
     ADD_MOVIES,
     ADD_TO_FAVOURITES,
     REMOVE_FROM_FAVOURITES, 
-    SET_SHOW_FAVOURITES
+    SET_SHOW_FAVOURITES,
+    ADD_SEARCH_RESULT,
+    ADD_MOVIES_TO_LIST
 }
 from '../Actions';
 
-// default state
+// default movies state
 const initialMoviesState = {
     list: [],
     favourite: [], 
@@ -51,36 +53,57 @@ export function movies(state = initialMoviesState, action) {
                 ...state,
                 showFavourite: action.showFavourite
             }
-        default: 
+        case ADD_MOVIES_TO_LIST:
+            return {
+                ...state,
+                list: [action.movie, ...state.list]
+            }
+        default:
             return state;
     }
 }
 
 const initialSearchState = {
-    result: {}
+    result: {}, 
+    showSearchResults: false
 };
 export function search (state = initialSearchState, action) {
-    return state;
+    switch(action.type) {
+        case ADD_SEARCH_RESULT: 
+            return {
+                ...state,
+                result: action.movie,
+                showSearchResults: true
+            }
+        case ADD_MOVIES_TO_LIST:
+            console.log(state)
+             return {
+                ...state,
+                showSearchResults: false
+            }
+        default: 
+            return state;
+    }
 }
 
 const initialRootState = {
+    search: initialSearchState,
     movies: initialMoviesState,
-    search: initialSearchState
 }
-// export default function rootReducer(state = initialRootState, action) {
-//     return {
-//         movies: movies(state.movies, action),
-//         search: search(state.search, action)
+export default function rootReducer(state = initialRootState, action) {
+    return {
+        movies: movies(state.movies, action),
+        search: search(state.search, action),
 
-//         // Here whenever state is changed both our reducers will be called as rootReducer will be called, it will internally call the all the reducer.
-//     }
-// }
+        // Here whenever state is changed both our reducers will be called as rootReducer will be called, it will internally call the all the reducer.
+    }
+}
 
 // Here we don't have to create rootReducer function it is available in redux itself and it works simillarly as we discussed.
-export default combineReducers({
-    movies,
-    search
-});
+// export default combineReducers({
+//     movies,
+//     search
+// });
 
 // Above is the basic syntax of reducers in the react code.
 // In reducers we get the current state of the component and our reducer creates an intent change to change the state. Along with current state we also get the action.
