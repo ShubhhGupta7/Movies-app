@@ -1,6 +1,7 @@
 import React from 'react';
-import {data} from '../data';
-import {connect} from '../index';
+// import {data} from '../data';
+// import {connect} from '../index';
+import {connect} from 'react-redux';
 import {
     handleMovieSearch,
     addSearchResult,

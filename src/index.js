@@ -1,4 +1,5 @@
 import React, { createContext } from 'react';
+import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -62,7 +63,7 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // })
 // console.log('after state', store.getState());
 
-export const StoreContext = createContext();
+// export const StoreContext = createContext();
 
 // First way to use context
 // The component rapped around the context and its child components will have access to store in this case.
@@ -77,58 +78,58 @@ export const StoreContext = createContext();
 
 // Second way to use context and we will be using this way as well.
 // Creating class
-class Provider extends React.Component {
-  render() { 
-    return  <StoreContext.Provider value = {store}>
-              {this.props.children}
-              {/* Here Above statement will render all the components which are rapped inside the provider class. */}
-            </StoreContext.Provider>
-  }
-}
+// class Provider extends React.Component {
+//   render() { 
+//     return  <StoreContext.Provider value = {store}>
+//               {this.props.children}
+//               {/* Here Above statement will render all the components which are rapped inside the provider class. */}
+//             </StoreContext.Provider>
+//   }
+// }
 
 // Implementing connect funtion for 
 // const connectedAppComponent = connect(callback)(App); 
-export function connect(callback) {
-  return function (Component) {
-    class ConnectedComponent extends React.Component {
-      constructor(props) {
-        super(props);
-        this.unsubscribe = this.props.store.subscribe(() => {
-          this.forceUpdate();
-        });
-      }
+// export function connect(callback) {
+//   return function (Component) {
+//     class ConnectedComponent extends React.Component {
+//       constructor(props) {
+//         super(props);
+//         this.unsubscribe = this.props.store.subscribe(() => {
+//           this.forceUpdate();
+//         });
+//       }
 
-      componentWillUnmount() {
-        this.unsubscribe();
-      }
-      render() {
-        const { store } = this.props;
-        const state = store.getState();
-        const dataToBeSentAsProps = callback(state);
+//       componentWillUnmount() {
+//         this.unsubscribe();
+//       }
+//       render() {
+//         const { store } = this.props;
+//         const state = store.getState();
+//         const dataToBeSentAsProps = callback(state);
 
-        return <Component dispatch={store.dispatch} {...dataToBeSentAsProps} />;
-      }
-    }
+//         return <Component dispatch={store.dispatch} {...dataToBeSentAsProps} />;
+//       }
+//     }
 
-    class ConnectedComponentWrapper extends React.Component {
-      render() {
-        return (
-          <StoreContext.Consumer>
-            {(store) => {
-              return <ConnectedComponent store={store} />;
-            }}
-          </StoreContext.Consumer>
-        );
-      }
-    }
-    return ConnectedComponentWrapper;
-  };
-}
+//     class ConnectedComponentWrapper extends React.Component {
+//       render() {
+//         return (
+//           <StoreContext.Consumer>
+//             {(store) => {
+//               return <ConnectedComponent store={store} />;
+//             }}
+//           </StoreContext.Consumer>
+//         );
+//       }
+//     }
+//     return ConnectedComponentWrapper;
+//   };
+// }
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
+    <Provider store = {store}>
       <App/>
     </Provider>
   </React.StrictMode>,
