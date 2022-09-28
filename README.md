@@ -1,4 +1,4 @@
-Movies App using Api!!!
+Movies App using API !!!
 
 ![Screenshot (140)](https://user-images.githubusercontent.com/86280855/192781801-7fd162ec-0f85-4b47-a491-8c44b5690252.png)
 ![Screenshot (141)](https://user-images.githubusercontent.com/86280855/192781808-f5cbac90-24c2-474e-a98c-5fa6f7d8ebd3.png)
